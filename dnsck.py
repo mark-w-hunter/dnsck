@@ -38,9 +38,9 @@ from dns import rcode
 from dns import exception
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.11"
+VERSION = "0.12"
 DEFAULT_RECORD_TYPE = "A"
-DEFAULT_ITERATIONS = 10
+DEFAULT_ITERATIONS = 30
 
 
 def dnsck_query(dns_server, dns_query, record_type, iterations):
@@ -48,35 +48,39 @@ def dnsck_query(dns_server, dns_query, record_type, iterations):
     result_code_list = []
     query_times = []
     response_errors = 0
+    iteration_count = 0
     make_dns_query = message.make_query(dns_query, record_type.upper())
     print(
         f"Performing {iterations} queries to server {dns_server} for domain {dns_query}",
         f"with record type {record_type.upper()}.\n"
     )
 
-    for iteration in range(iterations):
-        print(f"Query number {iteration + 1}:")
-        start_time = timeit.default_timer()
-        try:
-            dns_response = query.udp(make_dns_query, dns_server, timeout=10)
-            for answer in dns_response.answer:
-                if len(dns_response.answer) > 0:
-                    print(answer)
-                else:
-                    print("No answer returned.")
-            result_code = rcode.to_text(dns_response.rcode())
-            result_code_list.append(result_code)
-        except exception.Timeout:
-            print("Query timeout.")
-            result_code = "Timeout"
-            result_code_list.append(result_code)
-            response_errors += 1
-
-        elapsed_time = (timeit.default_timer() - start_time) * 1000
-        time.sleep(1)
-        query_times.append(elapsed_time)
-        print(f"Query time: {round(elapsed_time, 2)} ms")
-        print(f"Response status: {result_code}\n")
+    try:
+        for iteration in range(iterations):
+            print(f"Query {iteration + 1}:")
+            start_time = timeit.default_timer()
+            try:
+                dns_response = query.udp(make_dns_query, dns_server, timeout=10)
+                for answer in dns_response.answer:
+                    if len(dns_response.answer) > 0:
+                        print(answer)
+                    else:
+                        print("No answer returned.")
+                result_code = rcode.to_text(dns_response.rcode())
+                result_code_list.append(result_code)
+                iteration_count += 1
+            except exception.Timeout:
+                print("Query timeout.")
+                result_code = "Timeout"
+                result_code_list.append(result_code)
+                response_errors += 1
+            elapsed_time = (timeit.default_timer() - start_time) * 1000
+            time.sleep(1)
+            query_times.append(elapsed_time)
+            print(f"Query time: {round(elapsed_time, 2)} ms")
+            print(f"Response status: {result_code}\n")
+    except KeyboardInterrupt:
+        print("Program terminating...")
 
     rcode_list_final = [(len(list(rcount)), rname) for rname, rcount in
                         groupby(sorted(result_code_list))]
@@ -85,7 +89,7 @@ def dnsck_query(dns_server, dns_query, record_type, iterations):
     for count, query_rcode in rcode_list_final:
         print(f"{count} {query_rcode}")
     print(
-        f"\nSummary: Performed {iterations} queries to server {dns_server}",
+        f"\nSummary: Performed {iteration_count} queries to server {dns_server}",
         f"for domain {dns_query} with record type {record_type.upper()}.",
         f"\nTotal errors: {response_errors}",
     )
