@@ -93,7 +93,7 @@ def dnsck_query(dns_server, dns_query, record_type, iterations):
 
 
 if __name__ == "__main__":
-    print(len(sys.argv))
+    # print(len(sys.argv))
     if len(sys.argv) > 4:
         if sys.argv[1] == "-s" and sys.argv[3] == "-d" and len(sys.argv) == 5:
             dnsck_query(sys.argv[2], sys.argv[4], DEFAULT_RECORD_TYPE, DEFAULT_ITERATIONS)
@@ -105,6 +105,8 @@ if __name__ == "__main__":
         elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and \
                 sys.argv[5] == "-t" and sys.argv[7] == "-i":
             dnsck_query(sys.argv[2], sys.argv[4], sys.argv[6], int(sys.argv[8]))
+    elif len(sys.argv) == 1:
+        print("run dnsck.py -h for help")
     elif sys.argv[1] == "--version" or sys.argv[1] == "-v":
         print(f"Dnsck version: {VERSION}")
     elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
