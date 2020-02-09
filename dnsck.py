@@ -116,6 +116,6 @@ if __name__ == "__main__":
         )
         print("  --version, -v\t\t\t Display version information and exit")
         print("  --help, -h\t\t\t Display this help text and exit\n")
-        print(f"Dnscl {VERSION}, {AUTHOR} (c) 2020")
+        print(f"Dnsck {VERSION}, {AUTHOR} (c) 2020")
     else:
         print("Error, try again.")
