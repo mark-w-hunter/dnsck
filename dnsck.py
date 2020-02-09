@@ -38,7 +38,7 @@ from dns import rcode
 from dns import exception
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.10"
+VERSION = "0.11"
 DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 10
 
@@ -111,7 +111,8 @@ if __name__ == "__main__":
         print(f"Dnsck version: {VERSION}")
     elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
         print(
-            "Usage: dnsck.py -s <server ip> -d <domain> -t <record type> -i <number of iterations>\n"
+            "Usage: dnsck.py -s <server ip> -d <domain name> -t <record type>",
+            "-i <number of iterations>\n"
         )
         print("  --version, -v\t\t\t Display version information and exit")
         print("  --help, -h\t\t\t Display this help text and exit\n")
