@@ -2,7 +2,7 @@
 
 # dnsck: Perform automated DNS queries
 # author: Mark W. Hunter
-# https://github.com/mark-w-hunter/dnscl
+# https://github.com/mark-w-hunter/dnsck
 #
 # The MIT License (MIT)
 #
