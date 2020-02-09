@@ -44,7 +44,7 @@ DEFAULT_ITERATIONS = 30
 
 
 def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
-    """Perform a DNS query for a set number of iterations"""
+    """Perform a UDP DNS query for a set number of iterations"""
     result_code_list = []
     query_times = []
     response_errors = 0
