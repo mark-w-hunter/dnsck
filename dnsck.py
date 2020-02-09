@@ -43,7 +43,7 @@ DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 30
 
 
-def dnsck_query(dns_server, dns_query, record_type, iterations):
+def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     """Perform a DNS query for a set number of iterations"""
     result_code_list = []
     query_times = []
@@ -73,11 +73,12 @@ def dnsck_query(dns_server, dns_query, record_type, iterations):
                 print("Query timeout.")
                 result_code = "Timeout"
                 result_code_list.append(result_code)
+                iteration_count += 1
                 response_errors += 1
             elapsed_time = (timeit.default_timer() - start_time) * 1000
             time.sleep(1)
             query_times.append(elapsed_time)
-            print(f"Query time: {round(elapsed_time, 2)} ms")
+            print(f"Response time: {round(elapsed_time, 2)} ms")
             print(f"Response status: {result_code}\n")
     except KeyboardInterrupt:
         print("Program terminating...")
@@ -91,7 +92,7 @@ def dnsck_query(dns_server, dns_query, record_type, iterations):
     print(
         f"\nSummary: Performed {iteration_count} queries to server {dns_server}",
         f"for domain {dns_query} with record type {record_type.upper()}.",
-        f"\nTotal errors: {response_errors}",
+        f"\nTimeout errors: {response_errors}",
     )
     print(f"Average response time: {round(sum(query_times) / len(query_times), 2)} ms\n")
 
@@ -100,15 +101,18 @@ if __name__ == "__main__":
     # print(len(sys.argv))
     if len(sys.argv) > 4:
         if sys.argv[1] == "-s" and sys.argv[3] == "-d" and len(sys.argv) == 5:
-            dnsck_query(sys.argv[2], sys.argv[4], DEFAULT_RECORD_TYPE, DEFAULT_ITERATIONS)
+            dnsck_query_udp(sys.argv[2], sys.argv[4], DEFAULT_RECORD_TYPE, DEFAULT_ITERATIONS)
         elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and sys.argv[5] == "-t" and \
                 len(sys.argv) == 7:
-            dnsck_query(sys.argv[2], sys.argv[4], sys.argv[6], DEFAULT_ITERATIONS)
+            dnsck_query_udp(sys.argv[2], sys.argv[4], sys.argv[6], DEFAULT_ITERATIONS)
         elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and sys.argv[5] == "-i":
-            dnsck_query(sys.argv[2], sys.argv[4], DEFAULT_RECORD_TYPE, int(sys.argv[6]))
+            dnsck_query_udp(sys.argv[2], sys.argv[4], DEFAULT_RECORD_TYPE, int(sys.argv[6]))
         elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and \
                 sys.argv[5] == "-t" and sys.argv[7] == "-i":
-            dnsck_query(sys.argv[2], sys.argv[4], sys.argv[6], int(sys.argv[8]))
+            dnsck_query_udp(sys.argv[2], sys.argv[4], sys.argv[6], int(sys.argv[8]))
+        elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and \
+                sys.argv[5] == "-i" and sys.argv[7] == "-t":
+            dnsck_query_udp(sys.argv[2], sys.argv[4], sys.argv[8], int(sys.argv[6]))
     elif len(sys.argv) == 1:
         print("run dnsck.py -h for help")
     elif sys.argv[1] == "--version" or sys.argv[1] == "-v":
