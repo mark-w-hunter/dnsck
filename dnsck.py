@@ -38,7 +38,7 @@ from dns import rcode
 from dns import exception
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.12"
+VERSION = "0.13"
 DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 30
 
