@@ -105,7 +105,8 @@ if __name__ == "__main__":
         elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and sys.argv[5] == "-t" and \
                 len(sys.argv) == 7:
             dnsck_query_udp(sys.argv[2], sys.argv[4], sys.argv[6], DEFAULT_ITERATIONS)
-        elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and sys.argv[5] == "-i":
+        elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and sys.argv[5] == "-i" and \
+                len(sys.argv) == 7:
             dnsck_query_udp(sys.argv[2], sys.argv[4], DEFAULT_RECORD_TYPE, int(sys.argv[6]))
         elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and \
                 sys.argv[5] == "-t" and sys.argv[7] == "-i":
@@ -113,8 +114,10 @@ if __name__ == "__main__":
         elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and \
                 sys.argv[5] == "-i" and sys.argv[7] == "-t":
             dnsck_query_udp(sys.argv[2], sys.argv[4], sys.argv[8], int(sys.argv[6]))
+        else:
+            print("Run dnsck.py -h for help.")
     elif len(sys.argv) == 1:
-        print("run dnsck.py -h for help")
+        print("Run dnsck.py -h for help.")
     elif sys.argv[1] == "--version" or sys.argv[1] == "-v":
         print(f"Dnsck version: {VERSION}")
     elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
