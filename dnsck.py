@@ -38,7 +38,7 @@ from dns import rcode
 from dns import exception
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.13"
+VERSION = "0.14"
 DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 30
 
@@ -61,7 +61,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
             start_time = timeit.default_timer()
             try:
                 dns_response = query.udp(make_dns_query, dns_server, timeout=10)
-                if len(dns_response.answer) > 0:
+                if dns_response.answer:
                     for answer in dns_response.answer:
                         print(answer)
                 else:
