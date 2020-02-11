@@ -50,6 +50,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     response_errors = 0
     iteration_count = 0
     make_dns_query = message.make_query(dns_query, record_type.upper())
+    make_dns_query.use_edns()
     print(
         f"Performing {iterations} queries to server {dns_server} for domain {dns_query}",
         f"with record type {record_type.upper()}.\n"
