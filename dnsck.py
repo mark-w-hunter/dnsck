@@ -66,7 +66,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
                     for answer in dns_response.answer:
                         print(answer)
                 else:
-                    print("No records returned")
+                    print("No records returned.")
                 result_code = rcode.to_text(dns_response.rcode())
                 result_code_list.append(result_code)
                 iteration_count += 1
