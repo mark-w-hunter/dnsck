@@ -38,7 +38,7 @@ from dns import rcode
 from dns import exception
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.14"
+VERSION = "0.15"
 DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 30
 
@@ -99,22 +99,18 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
 
 
 if __name__ == "__main__":
-    # print(len(sys.argv))
-    if len(sys.argv) > 4:
-        if sys.argv[1] == "-s" and sys.argv[3] == "-d" and len(sys.argv) == 5:
-            dnsck_query_udp(sys.argv[2], sys.argv[4], DEFAULT_RECORD_TYPE, DEFAULT_ITERATIONS)
-        elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and sys.argv[5] == "-t" and \
-                len(sys.argv) == 7:
-            dnsck_query_udp(sys.argv[2], sys.argv[4], sys.argv[6], DEFAULT_ITERATIONS)
-        elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and sys.argv[5] == "-i" and \
-                len(sys.argv) == 7:
-            dnsck_query_udp(sys.argv[2], sys.argv[4], DEFAULT_RECORD_TYPE, int(sys.argv[6]))
-        elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and \
-                sys.argv[5] == "-t" and sys.argv[7] == "-i":
-            dnsck_query_udp(sys.argv[2], sys.argv[4], sys.argv[6], int(sys.argv[8]))
-        elif sys.argv[1] == "-s" and sys.argv[3] == "-d" and \
-                sys.argv[5] == "-i" and sys.argv[7] == "-t":
-            dnsck_query_udp(sys.argv[2], sys.argv[4], sys.argv[8], int(sys.argv[6]))
+    print(len(sys.argv))
+    if len(sys.argv) > 3:
+        if sys.argv[1] == "-s" and len(sys.argv) == 4:
+            dnsck_query_udp(sys.argv[2], sys.argv[3], DEFAULT_RECORD_TYPE, DEFAULT_ITERATIONS)
+        elif sys.argv[1] == "-s" and sys.argv[4] == "-t" and len(sys.argv) == 6:
+            dnsck_query_udp(sys.argv[2], sys.argv[3], sys.argv[5], DEFAULT_ITERATIONS)
+        elif sys.argv[1] == "-s" and sys.argv[4] == "-i" and len(sys.argv) == 6:
+            dnsck_query_udp(sys.argv[2], sys.argv[3], DEFAULT_RECORD_TYPE, int(sys.argv[5]))
+        elif sys.argv[1] == "-s" and sys.argv[4] == "-t" and sys.argv[6] == "-i":
+            dnsck_query_udp(sys.argv[2], sys.argv[3], sys.argv[5], int(sys.argv[7]))
+        elif sys.argv[1] == "-s" and sys.argv[4] == "-i" and sys.argv[6] == "-t":
+            dnsck_query_udp(sys.argv[2], sys.argv[3], sys.argv[7], int(sys.argv[5]))
         else:
             print("Run dnsck.py -h for help.")
     elif len(sys.argv) == 1:
@@ -123,7 +119,7 @@ if __name__ == "__main__":
         print(f"Dnsck version: {VERSION}")
     elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
         print(
-            "Usage: dnsck.py -s <server ip> -d <domain name> -t <record type>",
+            "Usage: dnsck.py -s <server ip> <domain name> -t <record type>",
             "-i <number of iterations>\n"
         )
         print("  --version, -v\t\t\t Display version information and exit")
