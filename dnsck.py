@@ -32,13 +32,10 @@ import sys
 import time
 import timeit
 from itertools import groupby
-from dns import query
-from dns import message
-from dns import rcode
-from dns import exception
+from dns import query, message, rcode, exception
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.15"
+VERSION = "0.16"
 DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 30
 
