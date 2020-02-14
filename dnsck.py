@@ -95,7 +95,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
         f"for domain {dns_query} with record type {record_type.upper()}.",
         f"\nPacket loss: {response_errors / iteration_count * 100:.2f}%",
     )
-    print(f"Average response time: {round(sum(query_times) / len(query_times), 2)} ms\n")
+    print(f"Average response time: {sum(query_times) / len(query_times):.2f} ms\n")
 
 
 if __name__ == "__main__":
