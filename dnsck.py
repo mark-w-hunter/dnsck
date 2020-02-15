@@ -96,7 +96,6 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
 
 
 if __name__ == "__main__":
-    print(len(sys.argv))
     if len(sys.argv) > 3:
         if sys.argv[1] == "-s" and len(sys.argv) == 4:
             dnsck_query_udp(sys.argv[2], sys.argv[3], DEFAULT_RECORD_TYPE, DEFAULT_ITERATIONS)
