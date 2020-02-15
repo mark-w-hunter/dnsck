@@ -30,12 +30,11 @@
 """This program performs automated DNS queries from command-line input"""
 import sys
 import time
-import timeit
 from itertools import groupby
 from dns import query, message, rcode, exception, rdatatype
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.18"
+VERSION = "0.19"
 DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 30
 
@@ -62,7 +61,6 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     try:
         for iteration in range(iterations):
             print(f"[Query {iteration + 1}]")
-            start_time = timeit.default_timer()
             try:
                 dns_response = query.udp(make_dns_query, dns_server, timeout=10)
                 if dns_response.answer:
@@ -73,18 +71,19 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
                     print("No records returned.")
                 result_code = rcode.to_text(dns_response.rcode())
                 result_code_list.append(result_code)
+                elapsed_time = dns_response.time * 1000
                 iteration_count += 1
             except exception.Timeout:
                 print("Query timeout.")
                 result_code = "Timeout"
                 result_code_list.append(result_code)
+                elapsed_time = 10000
                 iteration_count += 1
                 response_errors += 1
-            elapsed_time = (timeit.default_timer() - start_time) * 1000
             time.sleep(1)
             query_times.append(elapsed_time)
             print(f"Records returned: {record_number}")
-            print(f"Response time: {round(elapsed_time, 2)} ms")
+            print(f"Response time: {elapsed_time:.2f} ms")
             print(f"Response status: {result_code}\n")
     except KeyboardInterrupt:
         print("Program terminating...")
@@ -124,7 +123,6 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
     try:
         for iteration in range(iterations):
             print(f"[Query {iteration + 1}]")
-            start_time = timeit.default_timer()
             try:
                 dns_response = query.tcp(make_dns_query, dns_server, timeout=10)
                 if dns_response.answer:
@@ -135,18 +133,19 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
                     print("No records returned.")
                 result_code = rcode.to_text(dns_response.rcode())
                 result_code_list.append(result_code)
+                elapsed_time = dns_response.time * 1000
                 iteration_count += 1
             except exception.Timeout:
                 print("Query timeout.")
                 result_code = "Timeout"
                 result_code_list.append(result_code)
+                elapsed_time = 10000
                 iteration_count += 1
                 response_errors += 1
-            elapsed_time = (timeit.default_timer() - start_time) * 1000
             time.sleep(1)
             query_times.append(elapsed_time)
             print(f"Records returned: {record_number}")
-            print(f"Response time: {round(elapsed_time, 2)} ms")
+            print(f"Response time: {elapsed_time:.2f} ms")
             print(f"Response status: {result_code}\n")
     except KeyboardInterrupt:
         print("Program terminating...")
