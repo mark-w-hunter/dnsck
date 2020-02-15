@@ -35,7 +35,7 @@ from itertools import groupby
 from dns import query, message, rcode, exception, rdatatype
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.17"
+VERSION = "0.18"
 DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 30
 
@@ -44,8 +44,10 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     """Perform a UDP DNS query for a set number of iterations"""
     result_code_list = []
     query_times = []
+    record_number = 0
     response_errors = 0
     iteration_count = 0
+
     try:
         make_dns_query = message.make_query(dns_query, record_type.upper())
     except rdatatype.UnknownRdatatype:
@@ -66,6 +68,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
                 if dns_response.answer:
                     for answer in dns_response.answer:
                         print(answer)
+                        record_number = len(answer)
                 else:
                     print("No records returned.")
                 result_code = rcode.to_text(dns_response.rcode())
@@ -80,6 +83,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
             elapsed_time = (timeit.default_timer() - start_time) * 1000
             time.sleep(1)
             query_times.append(elapsed_time)
+            print(f"Records returned: {record_number}")
             print(f"Response time: {round(elapsed_time, 2)} ms")
             print(f"Response status: {result_code}\n")
     except KeyboardInterrupt:
@@ -103,8 +107,10 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
     """Perform a TCP DNS query for a set number of iterations"""
     result_code_list = []
     query_times = []
+    record_number = 0
     response_errors = 0
     iteration_count = 0
+
     try:
         make_dns_query = message.make_query(dns_query, record_type.upper())
     except rdatatype.UnknownRdatatype:
@@ -124,6 +130,7 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
                 if dns_response.answer:
                     for answer in dns_response.answer:
                         print(answer)
+                        record_number = len(answer)
                 else:
                     print("No records returned.")
                 result_code = rcode.to_text(dns_response.rcode())
@@ -138,6 +145,7 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
             elapsed_time = (timeit.default_timer() - start_time) * 1000
             time.sleep(1)
             query_times.append(elapsed_time)
+            print(f"Records returned: {record_number}")
             print(f"Response time: {round(elapsed_time, 2)} ms")
             print(f"Response status: {result_code}\n")
     except KeyboardInterrupt:
