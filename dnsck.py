@@ -32,7 +32,7 @@ import sys
 import time
 import timeit
 from itertools import groupby
-from dns import query, message, rcode, exception
+from dns import query, message, rcode, exception, rdatatype
 
 AUTHOR = "Mark W. Hunter"
 VERSION = "0.17"
@@ -46,7 +46,11 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     query_times = []
     response_errors = 0
     iteration_count = 0
-    make_dns_query = message.make_query(dns_query, record_type.upper())
+    try:
+        make_dns_query = message.make_query(dns_query, record_type.upper())
+    except rdatatype.UnknownRdatatype:
+        print("Unknown record type, try again.")
+        sys.exit()
     make_dns_query.use_edns()
     print(
         f"Performing {iterations} queries to server {dns_server} for domain {dns_query}",
@@ -101,7 +105,11 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
     query_times = []
     response_errors = 0
     iteration_count = 0
-    make_dns_query = message.make_query(dns_query, record_type.upper())
+    try:
+        make_dns_query = message.make_query(dns_query, record_type.upper())
+    except rdatatype.UnknownRdatatype:
+        print("Unknown record type, try again.")
+        sys.exit()
     print(
         f"Performing {iterations} TCP queries to server {dns_server} for domain {dns_query}",
         f"with record type {record_type.upper()}.\n"
