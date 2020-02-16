@@ -7,9 +7,9 @@ This program performs automated DNS queries from command-line input
 
 ## usage
 
-dnsck.py -s server_ip domain_name -t record_type -i num_iterations
+dnsck.py -s server_ip domain_name -t record_type -i num_iterations --tcp
 
-Note: -s and domain_name parameters are mandatory, -t (default A) and -i (default 30) are optional.
+Note: -s and domain_name parameters are mandatory, -t (default A), -i (default 30) and --tcp (default udp) are optional.
 
 Python 3.6 or higher required.
 
@@ -25,6 +25,12 @@ Perfom 30 queries to resolver 1.1.1.1 for www.foo.org A records
 
 ```bash
 python3 dnsck.py -s 1.1.1.1 www.foo.org
+```
+
+Perfom 10 TCP queries to resolver 192.168.0.1 for local.org TXT records
+
+```bash
+./dnsck.py -s 192.168.0.1 local.org -t txt -i 10 --tcp
 ```
 
 Display help
