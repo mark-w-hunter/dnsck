@@ -44,3 +44,7 @@ Display help
 dnsck_query_udp(dns_server, dns_query, record_type, iterations)
 
 - Perform a UDP DNS query for a set number of iterations  
+
+dnsck_query_tcp(dns_server, dns_query, record_type, iterations)
+
+- Perform a TCP DNS query for a set number of iterations
