@@ -48,11 +48,10 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     iteration_count = 0
 
     try:
-        make_dns_query = message.make_query(dns_query, record_type.upper())
+        make_dns_query = message.make_query(dns_query, record_type.upper(), use_edns=True)
     except rdatatype.UnknownRdatatype:
         print("Unknown record type, try again.")
         sys.exit()
-    make_dns_query.use_edns()
     print(
         f"Performing {iterations} queries to server {dns_server} for domain {dns_query}",
         f"with record type {record_type.upper()}.\n"
@@ -137,10 +136,16 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
                         record_number = len(answer)
                 else:
                     print("No records returned.")
-                result_code = rcode.to_text(dns_response.rcode())
-                result_code_list.append(result_code)
                 elapsed_time = dns_response.time * 1000
-                iteration_count += 1
+                if elapsed_time < 500:
+                    result_code = rcode.to_text(dns_response.rcode())
+                    result_code_list.append(result_code)
+                    iteration_count += 1
+                else:
+                    result_code = "Degraded"
+                    result_code_list.append(result_code)
+                    iteration_count += 1
+                    response_errors += 1
             except exception.Timeout:
                 print("Query timeout.")
                 result_code = "Timeout"
