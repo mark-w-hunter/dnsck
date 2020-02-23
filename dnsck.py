@@ -34,7 +34,7 @@ from itertools import groupby
 from dns import query, message, rcode, exception, rdatatype
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.19"
+VERSION = "0.20"
 DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 30
 
@@ -69,10 +69,16 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
                         record_number = len(answer)
                 else:
                     print("No records returned.")
-                result_code = rcode.to_text(dns_response.rcode())
-                result_code_list.append(result_code)
                 elapsed_time = dns_response.time * 1000
-                iteration_count += 1
+                if elapsed_time < 500:
+                    result_code = rcode.to_text(dns_response.rcode())
+                    result_code_list.append(result_code)
+                    iteration_count += 1
+                else:
+                    result_code = "Degraded"
+                    result_code_list.append(result_code)
+                    iteration_count += 1
+                    response_errors += 1
             except exception.Timeout:
                 print("Query timeout.")
                 result_code = "Timeout"
@@ -97,7 +103,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     print(
         f"\nSummary: Performed {iteration_count} queries to server {dns_server}",
         f"for domain {dns_query} with record type {record_type.upper()}.",
-        f"\nPacket loss: {response_errors / iteration_count * 100:.2f}%",
+        f"\nResponse errors: {response_errors / iteration_count * 100:.2f}%",
     )
     print(f"Average response time: {sum(query_times) / len(query_times):.2f} ms\n")
 
