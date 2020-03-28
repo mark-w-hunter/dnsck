@@ -27,7 +27,7 @@
 # SOFTWARE.
 
 
-"""This program performs automated DNS queries from command-line input"""
+"""This program performs automated DNS queries from command-line input."""
 import sys
 import time
 from itertools import groupby
@@ -40,7 +40,7 @@ DEFAULT_ITERATIONS = 30
 
 
 def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
-    """Perform a UDP DNS query for a set number of iterations"""
+    """Perform a UDP DNS query for a set number of iterations."""
     result_code_list = []
     query_times = []
     record_number = 0
@@ -108,7 +108,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
 
 
 def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
-    """Perform a TCP DNS query for a set number of iterations"""
+    """Perform a TCP DNS query for a set number of iterations."""
     result_code_list = []
     query_times = []
     record_number = 0
@@ -121,7 +121,7 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
         print("Unknown record type, try again.")
         sys.exit()
     print(
-        f"Performing {iterations} TCP queries to server {dns_server} for domain {dns_query}",
+        f"Performing {iterations} TCP queries to server {dns_server} for domain name {dns_query}",
         f"with record type {record_type.upper()}.\n"
     )
 
@@ -169,7 +169,7 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
         print(f"{count} {query_rcode}")
     print(
         f"\nSummary: Performed {iteration_count} TCP queries to server {dns_server}",
-        f"for domain {dns_query} with record type {record_type.upper()}.",
+        f"for domain name {dns_query} with record type {record_type.upper()}.",
         f"\nResponse errors: {response_errors / iteration_count * 100:.2f}%",
     )
     print(f"Average response time: {sum(query_times) / len(query_times):.2f} ms\n")
