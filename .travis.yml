@@ -4,5 +4,7 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
-install: "pip install flake8 dnspython"
-script: "flake8 --max-line-length=100 dnsck.py"
+install: "pip install flake8 pytest dnspython"
+script: 
+  - "flake8 --max-line-length=100 dnsck/dnsck.py"
+  - "pytest"
