@@ -34,7 +34,7 @@ from itertools import groupby
 from dns import query, message, rcode, exception, rdatatype
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.20"
+VERSION = "0.21"
 DEFAULT_RECORD_TYPE = "A"
 DEFAULT_ITERATIONS = 30
 
@@ -106,6 +106,11 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     )
     print(f"Average response time: {sum(query_times) / len(query_times):.2f} ms\n")
 
+    if response_errors:
+        return 1
+    else:
+        return 0
+
 
 def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
     """Perform a TCP DNS query for a set number of iterations."""
@@ -173,6 +178,11 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
         f"\nResponse errors: {response_errors / iteration_count * 100:.2f}%",
     )
     print(f"Average response time: {sum(query_times) / len(query_times):.2f} ms\n")
+
+    if response_errors:
+        return 1
+    else:
+        return 0
 
 
 if __name__ == "__main__":
