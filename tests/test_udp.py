@@ -1,6 +1,6 @@
 """Test cases for dns_query_udp function."""
 import pytest
-from dnsck import dnsck_query_udp
+from dnsck.dnsck import dnsck_query_udp
 
 
 def test_udp_query():

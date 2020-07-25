@@ -1,6 +1,6 @@
 """Test cases for dns_query_tcp function."""
 import pytest
-from dnsck import dnsck_query_tcp
+from dnsck.dnsck import dnsck_query_tcp
 
 
 def test_tcp_query():
