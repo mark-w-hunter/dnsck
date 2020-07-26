@@ -30,13 +30,12 @@
 """This program performs automated DNS queries from command-line input."""
 import sys
 import time
+import argparse
 from itertools import groupby
 from dns import query, message, rcode, exception, rdatatype
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.21"
-DEFAULT_RECORD_TYPE = "A"
-DEFAULT_ITERATIONS = 30
+VERSION = "0.23"
 
 
 def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
@@ -185,45 +184,39 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
         return 0
 
 
-if __name__ == "__main__":
-    if len(sys.argv) > 3 and "--tcp" not in sys.argv:
-        if sys.argv[1] == "-s" and len(sys.argv) == 4:
-            dnsck_query_udp(sys.argv[2], sys.argv[3], DEFAULT_RECORD_TYPE, DEFAULT_ITERATIONS)
-        elif sys.argv[1] == "-s" and sys.argv[4] == "-t" and len(sys.argv) == 6:
-            dnsck_query_udp(sys.argv[2], sys.argv[3], sys.argv[5], DEFAULT_ITERATIONS)
-        elif sys.argv[1] == "-s" and sys.argv[4] == "-i" and len(sys.argv) == 6:
-            dnsck_query_udp(sys.argv[2], sys.argv[3], DEFAULT_RECORD_TYPE, int(sys.argv[5]))
-        elif sys.argv[1] == "-s" and sys.argv[4] == "-t" and sys.argv[6] == "-i":
-            dnsck_query_udp(sys.argv[2], sys.argv[3], sys.argv[5], int(sys.argv[7]))
-        elif sys.argv[1] == "-s" and sys.argv[4] == "-i" and sys.argv[6] == "-t":
-            dnsck_query_udp(sys.argv[2], sys.argv[3], sys.argv[7], int(sys.argv[5]))
-        else:
-            print("Run dnsck.py -h for help.")
-    elif len(sys.argv) > 3 and "--tcp" in sys.argv:
-        if sys.argv[1] == "-s" and len(sys.argv) == 5:
-            dnsck_query_tcp(sys.argv[2], sys.argv[3], DEFAULT_RECORD_TYPE, DEFAULT_ITERATIONS)
-        elif sys.argv[1] == "-s" and sys.argv[4] == "-t" and len(sys.argv) == 7:
-            dnsck_query_tcp(sys.argv[2], sys.argv[3], sys.argv[5], DEFAULT_ITERATIONS)
-        elif sys.argv[1] == "-s" and sys.argv[4] == "-i" and len(sys.argv) == 7:
-            dnsck_query_tcp(sys.argv[2], sys.argv[3], DEFAULT_RECORD_TYPE, int(sys.argv[5]))
-        elif sys.argv[1] == "-s" and sys.argv[4] == "-t" and sys.argv[6] == "-i":
-            dnsck_query_tcp(sys.argv[2], sys.argv[3], sys.argv[5], int(sys.argv[7]))
-        elif sys.argv[1] == "-s" and sys.argv[4] == "-i" and sys.argv[6] == "-t":
-            dnsck_query_tcp(sys.argv[2], sys.argv[3], sys.argv[7], int(sys.argv[5]))
-        else:
-            print("Run dnsck.py -h for help.")
-    elif len(sys.argv) == 1:
-        print("Run dnsck.py -h for help.")
-    elif sys.argv[1] == "--version" or sys.argv[1] == "-v":
-        print(f"Dnsck version: {VERSION}")
-    elif sys.argv[1] == "--help" or sys.argv[1] == "-h":
-        print(
-            "Usage: dnsck.py -s <server ip> <domain name> -t <record type>",
-            "-i <number of iterations> --tcp\n"
-        )
-        print("  --version, -v\t\t\t Display version information and exit")
-        print("  --help, -h\t\t\t Display this help text and exit\n")
-        print(f"Dnsck {VERSION}, {AUTHOR} (c) 2020")
+def main():
+    """Run main program."""
+    dnsck_parser = argparse.ArgumentParser(
+        description="Perform automated DNS queries from command-line input"
+    )
+    dnsck_parser.add_argument("domain", type=str, help="domain name to query")
+    dnsck_parser.add_argument("-s",
+                              "--server",
+                              type=str,
+                              help="ip address of server [default: 8.8.8.8]",
+                              default="8.8.8.8")
+    dnsck_parser.add_argument("-t",
+                              "--type",
+                              type=str,
+                              help="record type [default: A]",
+                              default="A")
+    dnsck_parser.add_argument("-i",
+                              "--iter",
+                              type=int,
+                              help="number of iterations [default: 30]",
+                              default=30)
+    dnsck_parser.add_argument("--tcp", help="use tcp", action="store_true")
+    dnsck_parser.add_argument("-v",
+                              "--version",
+                              action="version",
+                              version="%(prog)s " + VERSION + ", " + AUTHOR + " (c) 2020")
+    args = dnsck_parser.parse_args()
+
+    if args.tcp:
+        dnsck_query_tcp(args.server, args.domain, args.type, args.iter)
     else:
-        print("Error, try again.")
-        sys.exit(1)
+        dnsck_query_udp(args.server, args.domain, args.type, args.iter)
+
+
+if __name__ == "__main__":
+    main()
