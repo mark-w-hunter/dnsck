@@ -36,3 +36,31 @@ def test_udp_keyboard_interrupt():
         sleep(5)
         os.kill(process.pid, SIGINT)
         raise KeyboardInterrupt
+
+
+def test_udp_alt_rectype():
+    """Tests alternate record type in command-line parameter."""
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "txt"]
+    process = subprocess.run(cmd, shell=False, check=True)
+    assert process.returncode == 0
+
+
+def test_udp_alt_iteration():
+    """Tests alternate iteration in command-line parameter."""
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "3"]
+    process = subprocess.run(cmd, shell=False, check=True)
+    assert process.returncode == 0
+
+
+def test_udp_alt_rectype_and_iteration():
+    """Tests alternate record type and iteration in command-line parameter."""
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "soa", "-i", "8"]
+    process = subprocess.run(cmd, shell=False, check=True)
+    assert process.returncode == 0
+
+
+def test_udp_swap_rectype_and_iteration():
+    """Tests swapping record type and iteration parameters."""
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "8", "-t", "soa"]
+    process = subprocess.run(cmd, shell=False, check=True)
+    assert process.returncode == 0

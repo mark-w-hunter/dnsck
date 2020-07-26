@@ -36,3 +36,35 @@ def test_tcp_keyboard_interrupt():
         sleep(5)
         os.kill(process.pid, SIGINT)
         raise KeyboardInterrupt
+
+
+def test_tcp_alt_rectype():
+    """Tests alternate record type in command-line parameter."""
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "txt", "--tcp"]
+    process = subprocess.run(cmd, shell=False, check=True)
+    assert process.returncode == 0
+
+
+def test_tcp_alt_iteration():
+    """Tests alternate iteration  in command-line parameter."""
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "5", "--tcp"]
+    process = subprocess.run(cmd, shell=False, check=True)
+    assert process.returncode == 0
+
+
+def test_tcp_alt_rectype_and_iteration():
+    """Tests alternate record type and iteration in command-line parameter."""
+    cmd = [
+        "python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "NS", "-i", "2", "--tcp"
+    ]
+    process = subprocess.run(cmd, shell=False, check=True)
+    assert process.returncode == 0
+
+
+def test_tcp_swap_rectype_and_iteration():
+    """Tests swapping record type and iteration parameters."""
+    cmd = [
+        "python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "2", "-t", "NS", "--tcp"
+    ]
+    process = subprocess.run(cmd, shell=False, check=True)
+    assert process.returncode == 0
