@@ -34,4 +34,5 @@ def test_udp_keyboard_interrupt():
         cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com"]
         process = subprocess.Popen(cmd, shell=False)
         sleep(5)
-        os.killpg(os.getpgid(process.pid), SIGINT)
+        os.kill(process.pid, SIGINT)
+        raise KeyboardInterrupt
