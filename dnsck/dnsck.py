@@ -226,3 +226,4 @@ if __name__ == "__main__":
         print(f"Dnsck {VERSION}, {AUTHOR} (c) 2020")
     else:
         print("Error, try again.")
+        sys.exit(1)
