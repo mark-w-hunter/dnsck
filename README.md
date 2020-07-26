@@ -5,38 +5,52 @@
 
 This program performs automated DNS queries from command-line input
 
+## setup
+
+Install package dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+*Note:* Python 3.6 or higher is required
+
 ## usage
 
-dnsck.py -s server_ip domain_name -t record_type -i num_iterations --tcp
+dnsck.py domain [-s server] [-t type] [-i iterations] [--tcp] [-h] [-v]
 
-Note: -s and domain_name parameters are mandatory, -t (default A), -i (default 30) and --tcp (default udp) are optional.
-
-Python 3.6 or higher required.
+Domain name argument is mandatory. Arguments for server -s, --server (default 8.8.8.8), type -t, --type (default A), Iteration -i, --iter (default 30) and --tcp (default udp) are optional.
 
 ### Examples
 
-Perform 300 queries to resolver 8.8.8.8 for foo.org AAAA records
+Perform 300 queries to resolver 8.8.8.8 for google.com AAAA records
 
 ```bash
-./dnsck.py -s 8.8.8.8 foo.org -t AAAA -i 300
+dnsck/dnsck.py google.com -t AAAA -i 300
 ```
 
-Perfom 30 queries to resolver 1.1.1.1 for www.foo.org A records
+Perfom 30 queries to resolver 1.1.1.1 for www.amazon.com A records
 
 ```bash
-python3 dnsck.py -s 1.1.1.1 www.foo.org
+python3 dnsck/dnsck.py -s 1.1.1.1 www.amazon.com
 ```
 
-Perfom 10 TCP queries to resolver 192.168.0.1 for local.org TXT records
+Perfom 10 TCP queries to resolver 192.168.0.1 for change.org TXT records
 
 ```bash
-./dnsck.py -s 192.168.0.1 local.org -t txt -i 10 --tcp
+dnsck/dnsck.py -s 192.168.0.1 change.org -t txt -i 10 --tcp
 ```
 
 Display help
 
 ```bash
-./dnsck.py --help
+dnsck/dnsck.py --help
+```
+
+Display version
+
+```bash
+dnsck/dnsck.py --version
 ```
 
 ## functions
@@ -48,3 +62,7 @@ dnsck_query_udp(dns_server, dns_query, record_type, iterations)
 dnsck_query_tcp(dns_server, dns_query, record_type, iterations)
 
 - Perform a TCP DNS query for a set number of iterations
+
+main()
+
+- Main program
