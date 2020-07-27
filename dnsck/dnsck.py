@@ -105,10 +105,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     )
     print(f"Average response time: {sum(query_times) / len(query_times):.2f} ms\n")
 
-    if response_errors:
-        return 1
-    else:
-        return 0
+    return response_errors
 
 
 def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
@@ -178,10 +175,7 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
     )
     print(f"Average response time: {sum(query_times) / len(query_times):.2f} ms\n")
 
-    if response_errors:
-        return 1
-    else:
-        return 0
+    return response_errors
 
 
 def main():

@@ -4,8 +4,8 @@ import subprocess
 
 def test_cli_help():
     """Tests help command-line parameter."""
-    cmd = ["python", "dnsck/dnsck.py", "-h"]
-    process = subprocess.run(cmd, shell=False, check=True)
+    cmd = ["python", "dnsck/dnsck.py", "-hh"]
+    process = subprocess.run(cmd)
     assert process.returncode == 0
 
 
