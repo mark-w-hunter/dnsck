@@ -35,7 +35,7 @@ from itertools import groupby
 from dns import query, message, rcode, exception, rdatatype
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.23"
+VERSION = "0.24"
 
 
 def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
