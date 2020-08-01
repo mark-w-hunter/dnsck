@@ -58,7 +58,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
 
     try:
         for iteration in range(iterations):
-            print(f"[Query {iteration + 1}]")
+            print(f"[Query {iteration + 1} of {iterations}]")
             try:
                 dns_response = query.udp(make_dns_query, dns_server, timeout=10)
                 if dns_response.answer:
@@ -128,7 +128,7 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
 
     try:
         for iteration in range(iterations):
-            print(f"[Query {iteration + 1}]")
+            print(f"[Query {iteration + 1} of {iterations}]")
             try:
                 dns_response = query.tcp(make_dns_query, dns_server, timeout=10)
                 if dns_response.answer:
