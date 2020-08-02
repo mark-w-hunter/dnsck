@@ -1,4 +1,4 @@
-# Dnsck
+# dnsck
 
 [![Build Status](https://travis-ci.com/mark-w-hunter/dnsck.svg?branch=devel)](https://travis-ci.com/mark-w-hunter/dnsck)
 [![codecov](https://codecov.io/gh/mark-w-hunter/dnsck/branch/devel/graph/badge.svg)](https://codecov.io/gh/mark-w-hunter/dnsck)
