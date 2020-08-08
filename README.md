@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/mark-w-hunter/dnsck/branch/devel/graph/badge.svg)](https://codecov.io/gh/mark-w-hunter/dnsck)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This program performs automated DNS queries from command-line input
+Perform automated DNS queries from command-line input
 
 ## setup
 
