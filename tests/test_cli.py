@@ -46,7 +46,7 @@ def test_cli_extra_param():
 
 def test_cli_extra_param_tcp():
     """Tests command-line input with extra parameter and --tcp specified."""
-    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "--tcp", "-y"]
+    cmd = ["python", "dnsck/dnsck.py", "-s", "2001:4860:4802:34::a", "google.com", "--tcp", "-y"]
     process = subprocess.run(cmd, shell=False, check=False)
     assert process.returncode == 2
 
@@ -70,3 +70,12 @@ def test_cli_invalid_ipv6_address():
     cmd = ["python", "dnsck/dnsck.py", "-s", "2001:4860:4802:34::ag", "google.com"]
     process = subprocess.run(cmd, shell=False, check=False)
     assert process.returncode == 2
+
+
+def test_cli_valid_ipv6_address():
+    """Tests command-line input with invalid parameter."""
+    cmd = [
+        "python", "dnsck/dnsck.py", "-s", "2001:4860:4802:0034:0000:0000:0000:000a", "google.com"
+    ]
+    process = subprocess.run(cmd, shell=False, check=False)
+    assert process.returncode == 0
