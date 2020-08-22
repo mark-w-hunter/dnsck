@@ -5,7 +5,8 @@ python:
   - "3.6"
   - "3.7"
   - "3.8"
-install: "pip install flake8 pytest dnspython"
+install: "pip install flake8 pytest pytest-cov dnspython"
 script: 
   - "flake8 --max-line-length=100 dnsck/dnsck.py"
-  - "pytest"
+  - "pytest --cov=dnsck"
+  - "bash <(curl -s https://codecov.io/bash)"
