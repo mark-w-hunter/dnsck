@@ -237,7 +237,7 @@ def main():
 
     if not is_valid_ipv4_address(args.server) and not is_valid_ipv6_address(args.server):
         print("Invalid ip address, try again.")
-        sys.exit(1)
+        sys.exit(2)
 
     if args.tcp:
         dnsck_query_tcp(args.server, args.domain, args.type, args.iter)

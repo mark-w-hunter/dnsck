@@ -56,3 +56,17 @@ def test_cli_invalid_param():
     cmd = ["python", "dnsck/dnsck.py", "-x", "8.8.8.8"]
     process = subprocess.run(cmd, shell=False, check=False)
     assert process.returncode == 2
+
+
+def test_cli_invalid_ipv4_address():
+    """Tests command-line input with invalid parameter."""
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8", "google.com"]
+    process = subprocess.run(cmd, shell=False, check=False)
+    assert process.returncode == 2
+
+
+def test_cli_invalid_ipv6_address():
+    """Tests command-line input with invalid parameter."""
+    cmd = ["python", "dnsck/dnsck.py", "-s", "2001:4860:4802:34::ag", "google.com"]
+    process = subprocess.run(cmd, shell=False, check=False)
+    assert process.returncode == 2
