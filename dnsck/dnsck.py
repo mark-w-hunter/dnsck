@@ -32,10 +32,11 @@ import sys
 import time
 import argparse
 from itertools import groupby
+import socket
 from dns import query, message, rcode, exception, rdatatype
 
 AUTHOR = "Mark W. Hunter"
-VERSION = "0.24"
+VERSION = "0.25"
 
 
 def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
@@ -50,7 +51,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
         make_dns_query = message.make_query(dns_query, record_type.upper(), use_edns=True)
     except rdatatype.UnknownRdatatype:
         print("Unknown record type, try again.")
-        sys.exit()
+        sys.exit(1)
     print(
         f"Performing {iterations} queries to server {dns_server} for domain {dns_query}",
         f"with record type {record_type.upper()}.\n"
@@ -120,7 +121,7 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
         make_dns_query = message.make_query(dns_query, record_type.upper())
     except rdatatype.UnknownRdatatype:
         print("Unknown record type, try again.")
-        sys.exit()
+        sys.exit(1)
     print(
         f"Performing {iterations} TCP queries to server {dns_server} for domain name {dns_query}",
         f"with record type {record_type.upper()}.\n"
@@ -178,6 +179,24 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
     return response_errors
 
 
+def is_valid_ipv4_address(address):
+    """Checks input is a valid IPv4 address."""
+    try:
+        socket.inet_pton(socket.AF_INET, address)
+    except socket.error:
+        return False
+    return True
+
+
+def is_valid_ipv6_address(address):
+    """Checks input is a valid IPv6 address."""
+    try:
+        socket.inet_pton(socket.AF_INET6, address)
+    except socket.error:
+        return False
+    return True
+
+
 def main():
     """Run main program."""
     dnsck_parser = argparse.ArgumentParser(
@@ -205,6 +224,10 @@ def main():
                               action="version",
                               version="%(prog)s " + VERSION + ", " + AUTHOR + " (c) 2020")
     args = dnsck_parser.parse_args()
+
+    if not is_valid_ipv4_address(args.server) and not is_valid_ipv6_address(args.server):
+        print("Invalid ip address, try again.")
+        sys.exit(2)
 
     if args.tcp:
         dnsck_query_tcp(args.server, args.domain, args.type, args.iter)

@@ -1,9 +1,10 @@
-# Dnsck
+# dnsck
 
 [![Build Status](https://travis-ci.com/mark-w-hunter/dnsck.svg?branch=master)](https://travis-ci.com/mark-w-hunter/dnsck)
+[![codecov](https://codecov.io/gh/mark-w-hunter/dnsck/branch/master/graph/badge.svg)](https://codecov.io/gh/mark-w-hunter/dnsck)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This program performs automated DNS queries from command-line input
+Perform automated DNS queries from command-line input
 
 ## setup
 
@@ -57,7 +58,7 @@ dnsck/dnsck.py --version
 
 dnsck_query_udp(dns_server, dns_query, record_type, iterations)
 
-- Perform a UDP DNS query for a set number of iterations  
+- Perform a UDP DNS query for a set number of iterations
 
 dnsck_query_tcp(dns_server, dns_query, record_type, iterations)
 

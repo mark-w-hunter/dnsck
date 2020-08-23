@@ -24,7 +24,7 @@ def test_tcp_bad_server():
 
 
 def test_tcp_no_records():
-    """Tests response with bad server IP address."""
+    """Tests response with no records returned."""
     assert dnsck_query_tcp("8.8.8.8", "test.google.com", "A", 1) == 0
 
 
@@ -33,21 +33,23 @@ def test_tcp_keyboard_interrupt():
     with pytest.raises(KeyboardInterrupt):
         cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "--tcp"]
         process = subprocess.Popen(cmd, shell=False)
-        sleep(5)
+        sleep(3)
         os.kill(process.pid, SIGINT)
         raise KeyboardInterrupt
 
 
 def test_tcp_alt_rectype():
     """Tests alternate record type in command-line parameter."""
-    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "txt", "--tcp"]
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8",
+           "google.com", "-t", "txt", "--tcp", "--iter", "1"]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
 
 
 def test_tcp_alt_iteration():
-    """Tests alternate iteration  in command-line parameter."""
-    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "5", "--tcp"]
+    """Tests alternate iteration in command-line parameter."""
+    cmd = ["python", "dnsck/dnsck.py", "-s",
+           "8.8.8.8", "google.com", "-i", "2", "--tcp"]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
 
@@ -55,7 +57,7 @@ def test_tcp_alt_iteration():
 def test_tcp_alt_rectype_and_iteration():
     """Tests alternate record type and iteration in command-line parameter."""
     cmd = [
-        "python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "NS", "-i", "2", "--tcp"
+        "python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "NS", "-i", "1", "--tcp"
     ]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
@@ -64,7 +66,7 @@ def test_tcp_alt_rectype_and_iteration():
 def test_tcp_swap_rectype_and_iteration():
     """Tests swapping record type and iteration parameters."""
     cmd = [
-        "python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "2", "-t", "NS", "--tcp"
+        "python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "1", "-t", "NS", "--tcp"
     ]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0

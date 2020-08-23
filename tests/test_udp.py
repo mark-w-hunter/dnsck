@@ -24,7 +24,7 @@ def test_udp_bad_server():
 
 
 def test_udp_no_records():
-    """Tests response with bad server IP address."""
+    """Tests response with no records returned."""
     assert dnsck_query_udp("8.8.8.8", "test.google.com", "A", 1) == 0
 
 
@@ -33,34 +33,37 @@ def test_udp_keyboard_interrupt():
     with pytest.raises(KeyboardInterrupt):
         cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com"]
         process = subprocess.Popen(cmd, shell=False)
-        sleep(5)
+        sleep(3)
         os.kill(process.pid, SIGINT)
         raise KeyboardInterrupt
 
 
 def test_udp_alt_rectype():
     """Tests alternate record type in command-line parameter."""
-    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "txt"]
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8",
+           "google.com", "-t", "txt", "-i", "1"]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
 
 
 def test_udp_alt_iteration():
     """Tests alternate iteration in command-line parameter."""
-    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "3"]
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "1"]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
 
 
 def test_udp_alt_rectype_and_iteration():
     """Tests alternate record type and iteration in command-line parameter."""
-    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "soa", "-i", "8"]
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8",
+           "google.com", "-t", "soa", "-i", "2"]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
 
 
 def test_udp_swap_rectype_and_iteration():
     """Tests swapping record type and iteration parameters."""
-    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "8", "-t", "soa"]
+    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8",
+           "google.com", "-i", "1", "-t", "soa"]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
