@@ -51,7 +51,7 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
         make_dns_query = message.make_query(dns_query, record_type.upper(), use_edns=True)
     except rdatatype.UnknownRdatatype:
         print("Unknown record type, try again.")
-        sys.exit()
+        sys.exit(1)
     print(
         f"Performing {iterations} queries to server {dns_server} for domain {dns_query}",
         f"with record type {record_type.upper()}.\n"
@@ -181,8 +181,6 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
 
 def is_valid_ipv4_address(address):
     """Checks input is a valid IPv4 address."""
-    # credit Stack Overflow user tzot
-    # https://stackoverflow.com/questions/319279/how-to-validate-ip-address-in-python/319298#319298
     try:
         socket.inet_pton(socket.AF_INET, address)
     except socket.error:
@@ -192,8 +190,6 @@ def is_valid_ipv4_address(address):
 
 def is_valid_ipv6_address(address):
     """Checks input is a valid IPv6 address."""
-    # credit Stack Overflow user tzot
-    # https://stackoverflow.com/questions/319279/how-to-validate-ip-address-in-python/319298#319298
     try:
         socket.inet_pton(socket.AF_INET6, address)
     except socket.error:
