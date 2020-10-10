@@ -35,12 +35,23 @@ from itertools import groupby
 import socket
 from dns import query, message, rcode, exception, rdatatype
 
-AUTHOR = "Mark W. Hunter"
-VERSION = "0.25"
+__author__ = "Mark W. Hunter"
+__version__ = "0.26"
 
 
-def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
-    """Perform a UDP DNS query for a set number of iterations."""
+def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iterations: int) -> int:
+    """Perform a UDP DNS query for a set number of iterations.
+
+    Args:
+        dns_server (str): IP address of server.
+        dns_query (str): Query to search.
+        record_type (str): Record type.
+        iterations (int): Number of iterations.
+
+    Returns:
+        int: Number of errors.
+
+    """
     result_code_list = []
     query_times = []
     record_number = 0
@@ -109,8 +120,19 @@ def dnsck_query_udp(dns_server, dns_query, record_type, iterations):
     return response_errors
 
 
-def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
-    """Perform a TCP DNS query for a set number of iterations."""
+def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iterations: int) -> int:
+    """Perform a TCP DNS query for a set number of iterations.
+
+    Args:
+        dns_server (str): IP address of server.
+        dns_query (str): Query to search.
+        record_type (str): Record type.
+        iterations (int): Number of iterations.
+
+    Returns:
+        int: Number of errors.
+
+    """
     result_code_list = []
     query_times = []
     record_number = 0
@@ -179,19 +201,35 @@ def dnsck_query_tcp(dns_server, dns_query, record_type, iterations):
     return response_errors
 
 
-def is_valid_ipv4_address(address):
-    """Checks input is a valid IPv4 address."""
+def is_valid_ipv4_address(ip_address: str) -> bool:
+    """Checks input is a valid IPv4 address.
+
+    Args:
+        ip_address (str): IP address to check.
+
+    Returns:
+        bool: True if IP address is valid, false if not
+
+    """
     try:
-        socket.inet_pton(socket.AF_INET, address)
+        socket.inet_pton(socket.AF_INET, ip_address)
     except socket.error:
         return False
     return True
 
 
-def is_valid_ipv6_address(address):
-    """Checks input is a valid IPv6 address."""
+def is_valid_ipv6_address(ip_address: str) -> bool:
+    """Checks input is a valid IPv6 address.
+
+    Args:
+        ip_address (str): IP address to check.
+
+    Returns:
+        bool: True if IP address is valid, false if not
+
+    """
     try:
-        socket.inet_pton(socket.AF_INET6, address)
+        socket.inet_pton(socket.AF_INET6, ip_address)
     except socket.error:
         return False
     return True
@@ -222,7 +260,7 @@ def main():
     dnsck_parser.add_argument("-v",
                               "--version",
                               action="version",
-                              version="%(prog)s " + VERSION + ", " + AUTHOR + " (c) 2020")
+                              version="%(prog)s " + __version__ + ", " + __author__ + " (c) 2020")
     args = dnsck_parser.parse_args()
 
     if not is_valid_ipv4_address(args.server) and not is_valid_ipv6_address(args.server):
