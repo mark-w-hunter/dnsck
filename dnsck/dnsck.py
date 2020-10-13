@@ -208,7 +208,7 @@ def is_valid_ipv4_address(ip_address: str) -> bool:
         ip_address (str): IP address to check.
 
     Returns:
-        bool: True if IP address is valid, false if not
+        bool: True if IP address is valid, false if not.
 
     """
     try:
@@ -225,7 +225,7 @@ def is_valid_ipv6_address(ip_address: str) -> bool:
         ip_address (str): IP address to check.
 
     Returns:
-        bool: True if IP address is valid, false if not
+        bool: True if IP address is valid, false if not.
 
     """
     try:
