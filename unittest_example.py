@@ -1,4 +1,4 @@
-"""Unit test cases for IP address validation."""
+"""IP address validation unit test cases."""
 import unittest
 from dnsck.dnsck import is_valid_ipv4_address, is_valid_ipv6_address
 
