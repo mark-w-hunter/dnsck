@@ -31,8 +31,9 @@
 import sys
 import time
 import argparse
-from itertools import groupby
+from collections import defaultdict
 import socket
+from typing import DefaultDict
 from dns import query, message, rcode, exception, rdatatype
 
 __author__ = "Mark W. Hunter"
@@ -52,7 +53,7 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
         int: Number of errors.
 
     """
-    result_code_list = []
+    result_code_dict: DefaultDict[str, int] = defaultdict(int)
     query_times = []
     record_number = 0
     response_errors = 0
@@ -82,17 +83,17 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
                 elapsed_time = dns_response.time * 1000
                 if elapsed_time < 500:
                     result_code = rcode.to_text(dns_response.rcode())
-                    result_code_list.append(result_code)
+                    result_code_dict[result_code] += 1
                     iteration_count += 1
                 else:
                     result_code = "Degraded"
-                    result_code_list.append(result_code)
+                    result_code_dict[result_code] += 1
                     iteration_count += 1
                     response_errors += 1
             except exception.Timeout:
                 print("Query timeout.")
                 result_code = "Timeout"
-                result_code_list.append(result_code)
+                result_code_dict[result_code] += 1
                 elapsed_time = 10000
                 iteration_count += 1
                 response_errors += 1
@@ -104,11 +105,8 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
     except KeyboardInterrupt:
         print("Program terminating...")
 
-    rcode_list_final = [(len(list(rcount)), rname) for rname, rcount in
-                        groupby(sorted(result_code_list))]
-
     print("Response status breakdown:")
-    for count, query_rcode in rcode_list_final:
+    for query_rcode, count in result_code_dict.items():
         print(f"{count} {query_rcode}")
     print(
         f"\nSummary: Performed {iteration_count} queries to server {dns_server}",
@@ -133,7 +131,7 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
         int: Number of errors.
 
     """
-    result_code_list = []
+    result_code_dict: DefaultDict[str, int] = defaultdict(int)
     query_times = []
     record_number = 0
     response_errors = 0
@@ -163,17 +161,17 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
                 elapsed_time = dns_response.time * 1000
                 if elapsed_time < 500:
                     result_code = rcode.to_text(dns_response.rcode())
-                    result_code_list.append(result_code)
+                    result_code_dict[result_code] += 1
                     iteration_count += 1
                 else:
                     result_code = "Degraded"
-                    result_code_list.append(result_code)
+                    result_code_dict[result_code] += 1
                     iteration_count += 1
                     response_errors += 1
             except exception.Timeout:
                 print("Query timeout.")
                 result_code = "Timeout"
-                result_code_list.append(result_code)
+                result_code_dict[result_code] += 1
                 elapsed_time = 10000
                 iteration_count += 1
                 response_errors += 1
@@ -185,11 +183,8 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
     except KeyboardInterrupt:
         print("Program terminating...")
 
-    rcode_list_final = [(len(list(rcount)), rname) for rname, rcount in
-                        groupby(sorted(result_code_list))]
-
     print("Response status breakdown:")
-    for count, query_rcode in rcode_list_final:
+    for query_rcode, count in result_code_dict.items():
         print(f"{count} {query_rcode}")
     print(
         f"\nSummary: Performed {iteration_count} TCP queries to server {dns_server}",
