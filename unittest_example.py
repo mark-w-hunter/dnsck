@@ -23,4 +23,5 @@ class TestIPAddressValidation(unittest.TestCase):
         self.assertEqual(is_valid_ipv6_address("::Z"), False)
 
 
-# unittest.main()
+if __name__ == "__main__":
+    unittest.main()
