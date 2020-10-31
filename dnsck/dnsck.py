@@ -33,7 +33,7 @@ import time
 import argparse
 from collections import defaultdict
 import socket
-from typing import DefaultDict
+from typing import DefaultDict, List
 from dns import query, message, rcode, exception, rdatatype
 
 __author__ = "Mark W. Hunter"
@@ -54,10 +54,9 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
 
     """
     result_code_dict: DefaultDict[str, int] = defaultdict(int)
-    query_times = []
-    record_number = 0
-    response_errors = 0
-    iteration_count = 0
+    query_times = []  # type: List[float]
+    response_errors = 0  # type: int
+    iteration_count = 0  # type: int
 
     try:
         make_dns_query = message.make_query(dns_query, record_type.upper(), use_edns=True)
@@ -77,12 +76,12 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
                 if dns_response.answer:
                     for answer in dns_response.answer:
                         print(answer)
-                        record_number = len(answer)
+                        record_number = len(answer)  # type: int
                 else:
                     print("No records returned.")
-                elapsed_time = dns_response.time * 1000
+                elapsed_time = dns_response.time * 1000  # type: float
                 if elapsed_time < 500:
-                    result_code = rcode.to_text(dns_response.rcode())
+                    result_code = rcode.to_text(dns_response.rcode())  # type: str
                     result_code_dict[result_code] += 1
                     iteration_count += 1
                 else:
@@ -132,10 +131,9 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
 
     """
     result_code_dict: DefaultDict[str, int] = defaultdict(int)
-    query_times = []
-    record_number = 0
-    response_errors = 0
-    iteration_count = 0
+    query_times = []  # type: List[float]
+    response_errors = 0  # type: int
+    iteration_count = 0  # type: int
 
     try:
         make_dns_query = message.make_query(dns_query, record_type.upper())
@@ -155,12 +153,12 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
                 if dns_response.answer:
                     for answer in dns_response.answer:
                         print(answer)
-                        record_number = len(answer)
+                        record_number = len(answer)  # type: int
                 else:
                     print("No records returned.")
-                elapsed_time = dns_response.time * 1000
+                elapsed_time = dns_response.time * 1000  # type: float
                 if elapsed_time < 500:
-                    result_code = rcode.to_text(dns_response.rcode())
+                    result_code = rcode.to_text(dns_response.rcode())  # type: str
                     result_code_dict[result_code] += 1
                     iteration_count += 1
                 else:
