@@ -55,6 +55,7 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
     """
     result_code_dict: DefaultDict[str, int] = defaultdict(int)
     query_times = []  # type: List[float]
+    record_number = 0  # type: int
     response_errors = 0  # type: int
     iteration_count = 0  # type: int
 
@@ -76,7 +77,7 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
                 if dns_response.answer:
                     for answer in dns_response.answer:
                         print(answer)
-                        record_number = len(answer)  # type: int
+                        record_number = len(answer)
                 else:
                     print("No records returned.")
                 elapsed_time = dns_response.time * 1000  # type: float
@@ -132,6 +133,7 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
     """
     result_code_dict: DefaultDict[str, int] = defaultdict(int)
     query_times = []  # type: List[float]
+    record_number = 0  # type: int
     response_errors = 0  # type: int
     iteration_count = 0  # type: int
 
@@ -153,7 +155,7 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
                 if dns_response.answer:
                     for answer in dns_response.answer:
                         print(answer)
-                        record_number = len(answer)  # type: int
+                        record_number = len(answer)
                 else:
                     print("No records returned.")
                 elapsed_time = dns_response.time * 1000  # type: float
