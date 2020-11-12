@@ -66,7 +66,7 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
         sys.exit(1)
     print(
         f"Performing {iterations} queries to server {dns_server} for domain {dns_query}",
-        f"with record type {record_type.upper()}.\n"
+        f"with record type {record_type.upper()}.\n",
     )
 
     try:
@@ -144,7 +144,7 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
         sys.exit(1)
     print(
         f"Performing {iterations} TCP queries to server {dns_server} for domain name {dns_query}",
-        f"with record type {record_type.upper()}.\n"
+        f"with record type {record_type.upper()}.\n",
     )
 
     try:
@@ -236,26 +236,26 @@ def main():
         description="Perform automated DNS queries from command-line input"
     )
     dnsck_parser.add_argument("domain", type=str, help="domain name to query")
-    dnsck_parser.add_argument("-s",
-                              "--server",
-                              type=str,
-                              help="ip address of server [default: 8.8.8.8]",
-                              default="8.8.8.8")
-    dnsck_parser.add_argument("-t",
-                              "--type",
-                              type=str,
-                              help="record type [default: A]",
-                              default="A")
-    dnsck_parser.add_argument("-i",
-                              "--iter",
-                              type=int,
-                              help="number of iterations [default: 30]",
-                              default=30)
+    dnsck_parser.add_argument(
+        "-s",
+        "--server",
+        type=str,
+        help="ip address of server [default: 8.8.8.8]",
+        default="8.8.8.8",
+    )
+    dnsck_parser.add_argument(
+        "-t", "--type", type=str, help="record type [default: A]", default="A"
+    )
+    dnsck_parser.add_argument(
+        "-i", "--iter", type=int, help="number of iterations [default: 30]", default=30
+    )
     dnsck_parser.add_argument("--tcp", help="use tcp", action="store_true")
-    dnsck_parser.add_argument("-v",
-                              "--version",
-                              action="version",
-                              version="%(prog)s " + __version__ + ", " + __author__ + " (c) 2020")
+    dnsck_parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version="%(prog)s " + __version__ + ", " + __author__ + " (c) 2020",
+    )
     args = dnsck_parser.parse_args()
 
     if not is_valid_ipv4_address(args.server) and not is_valid_ipv6_address(args.server):
