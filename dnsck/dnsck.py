@@ -33,7 +33,7 @@ import time
 import argparse
 from collections import defaultdict
 import socket
-from typing import DefaultDict
+from typing import DefaultDict, List
 from dns import query, message, rcode, exception, rdatatype
 
 __author__ = "Mark W. Hunter"
@@ -54,10 +54,10 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
 
     """
     result_code_dict: DefaultDict[str, int] = defaultdict(int)
-    query_times = []
-    record_number = 0
-    response_errors = 0
-    iteration_count = 0
+    query_times = []  # type: List[float]
+    record_number = 0  # type: int
+    response_errors = 0  # type: int
+    iteration_count = 0  # type: int
 
     try:
         make_dns_query = message.make_query(dns_query, record_type.upper(), use_edns=True)
@@ -66,7 +66,7 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
         sys.exit(1)
     print(
         f"Performing {iterations} queries to server {dns_server} for domain {dns_query}",
-        f"with record type {record_type.upper()}.\n"
+        f"with record type {record_type.upper()}.\n",
     )
 
     try:
@@ -80,9 +80,9 @@ def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iteration
                         record_number = len(answer)
                 else:
                     print("No records returned.")
-                elapsed_time = dns_response.time * 1000
+                elapsed_time = dns_response.time * 1000  # type: float
                 if elapsed_time < 500:
-                    result_code = rcode.to_text(dns_response.rcode())
+                    result_code = rcode.to_text(dns_response.rcode())  # type: str
                     result_code_dict[result_code] += 1
                     iteration_count += 1
                 else:
@@ -132,10 +132,10 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
 
     """
     result_code_dict: DefaultDict[str, int] = defaultdict(int)
-    query_times = []
-    record_number = 0
-    response_errors = 0
-    iteration_count = 0
+    query_times = []  # type: List[float]
+    record_number = 0  # type: int
+    response_errors = 0  # type: int
+    iteration_count = 0  # type: int
 
     try:
         make_dns_query = message.make_query(dns_query, record_type.upper())
@@ -144,7 +144,7 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
         sys.exit(1)
     print(
         f"Performing {iterations} TCP queries to server {dns_server} for domain name {dns_query}",
-        f"with record type {record_type.upper()}.\n"
+        f"with record type {record_type.upper()}.\n",
     )
 
     try:
@@ -158,9 +158,9 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
                         record_number = len(answer)
                 else:
                     print("No records returned.")
-                elapsed_time = dns_response.time * 1000
+                elapsed_time = dns_response.time * 1000  # type: float
                 if elapsed_time < 500:
-                    result_code = rcode.to_text(dns_response.rcode())
+                    result_code = rcode.to_text(dns_response.rcode())  # type: str
                     result_code_dict[result_code] += 1
                     iteration_count += 1
                 else:
@@ -236,26 +236,26 @@ def main():
         description="Perform automated DNS queries from command-line input"
     )
     dnsck_parser.add_argument("domain", type=str, help="domain name to query")
-    dnsck_parser.add_argument("-s",
-                              "--server",
-                              type=str,
-                              help="ip address of server [default: 8.8.8.8]",
-                              default="8.8.8.8")
-    dnsck_parser.add_argument("-t",
-                              "--type",
-                              type=str,
-                              help="record type [default: A]",
-                              default="A")
-    dnsck_parser.add_argument("-i",
-                              "--iter",
-                              type=int,
-                              help="number of iterations [default: 30]",
-                              default=30)
+    dnsck_parser.add_argument(
+        "-s",
+        "--server",
+        type=str,
+        help="ip address of server [default: 8.8.8.8]",
+        default="8.8.8.8",
+    )
+    dnsck_parser.add_argument(
+        "-t", "--type", type=str, help="record type [default: A]", default="A"
+    )
+    dnsck_parser.add_argument(
+        "-i", "--iter", type=int, help="number of iterations [default: 30]", default=30
+    )
     dnsck_parser.add_argument("--tcp", help="use tcp", action="store_true")
-    dnsck_parser.add_argument("-v",
-                              "--version",
-                              action="version",
-                              version="%(prog)s " + __version__ + ", " + __author__ + " (c) 2020")
+    dnsck_parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version="%(prog)s " + __version__ + ", " + __author__ + " (c) 2020",
+    )
     args = dnsck_parser.parse_args()
 
     if not is_valid_ipv4_address(args.server) and not is_valid_ipv6_address(args.server):
