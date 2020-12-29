@@ -37,7 +37,7 @@ from typing import DefaultDict, List
 from dns import query, message, rcode, exception, rdatatype
 
 __author__ = "Mark W. Hunter"
-__version__ = "0.26"
+__version__ = "0.27"
 
 
 def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iterations: int) -> int:
