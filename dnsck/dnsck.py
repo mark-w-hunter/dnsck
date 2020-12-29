@@ -32,12 +32,12 @@ import sys
 import time
 import argparse
 from collections import defaultdict
-import socket
+from ipaddress import ip_address
 from typing import DefaultDict, List
 from dns import query, message, rcode, exception, rdatatype
 
 __author__ = "Mark W. Hunter"
-__version__ = "0.26"
+__version__ = "0.27"
 
 
 def dnsck_query_udp(dns_server: str, dns_query: str, record_type: str, iterations: int) -> int:
@@ -196,36 +196,19 @@ def dnsck_query_tcp(dns_server: str, dns_query: str, record_type: str, iteration
     return response_errors
 
 
-def is_valid_ipv4_address(ip_address: str) -> bool:
-    """Checks input is a valid IPv4 address.
+def is_valid_ip_address(ip_addr: str) -> bool:
+    """Checks input is a valid IPv4 or IPv6 address.
 
     Args:
         ip_address (str): IP address to check.
 
     Returns:
-        bool: True if IP address is valid, false if not.
+        bool: True if IP address is valid, False if not.
 
     """
     try:
-        socket.inet_pton(socket.AF_INET, ip_address)
-    except socket.error:
-        return False
-    return True
-
-
-def is_valid_ipv6_address(ip_address: str) -> bool:
-    """Checks input is a valid IPv6 address.
-
-    Args:
-        ip_address (str): IP address to check.
-
-    Returns:
-        bool: True if IP address is valid, false if not.
-
-    """
-    try:
-        socket.inet_pton(socket.AF_INET6, ip_address)
-    except socket.error:
+        ip_address(ip_addr)
+    except ValueError:
         return False
     return True
 
@@ -258,8 +241,8 @@ def main():
     )
     args = dnsck_parser.parse_args()
 
-    if not is_valid_ipv4_address(args.server) and not is_valid_ipv6_address(args.server):
-        print("Invalid ip address, try again.")
+    if not is_valid_ip_address(args.server):
+        print("Invalid IP address, try again.")
         sys.exit(2)
 
     if args.tcp:
