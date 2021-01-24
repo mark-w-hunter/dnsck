@@ -200,7 +200,7 @@ def is_valid_ip_address(ip_addr: str) -> bool:
     """Checks input is a valid IPv4 or IPv6 address.
 
     Args:
-        ip_address (str): IP address to check.
+        ip_addr (str): IP address to check.
 
     Returns:
         bool: True if IP address is valid, False if not.
