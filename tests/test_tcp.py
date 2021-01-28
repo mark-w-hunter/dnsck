@@ -4,28 +4,28 @@ import subprocess
 from signal import SIGINT
 from time import sleep
 import pytest
-from dnsck.dnsck import dnsck_query_tcp
+from dnsck.dnsck import dnsck_query
 
 
 def test_tcp_query():
     """Tests for successful DNS query using tcp."""
-    assert dnsck_query_tcp("8.8.8.8", "google.com", "AAAA", 1) == 0
+    assert dnsck_query("8.8.8.8", "google.com", "AAAA", 1, True) == 0
 
 
 def test_tcp_unknown_rec_type():
     """Unknown record types should raise an exception and exit."""
     with pytest.raises(SystemExit):
-        assert dnsck_query_tcp("8.8.8.8", "google.com", "abc", 1)
+        assert dnsck_query("8.8.8.8", "google.com", "abc", 1, True)
 
 
 def test_tcp_bad_server():
     """Tests response with bad server IP address."""
-    assert dnsck_query_tcp("8.8.8.88", "google.com", "A", 1) == 1
+    assert dnsck_query("8.8.8.88", "google.com", "A", 1, True) == 1
 
 
 def test_tcp_no_records():
     """Tests response with no records returned."""
-    assert dnsck_query_tcp("8.8.8.8", "test.google.com", "A", 1) == 0
+    assert dnsck_query("8.8.8.8", "test.google.com", "A", 1, True) == 0
 
 
 def test_tcp_keyboard_interrupt():

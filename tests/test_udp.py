@@ -4,28 +4,28 @@ import subprocess
 from signal import SIGINT
 from time import sleep
 import pytest
-from dnsck.dnsck import dnsck_query_udp
+from dnsck.dnsck import dnsck_query
 
 
 def test_udp_query():
     """Tests for successful DNS query using UDP."""
-    assert dnsck_query_udp("8.8.8.8", "google.com", "a", 1) == 0
+    assert dnsck_query("8.8.8.8", "google.com", "a", 1) == 0
 
 
 def test_udp_unknown_rec_type():
     """Unknown record types should raise an exception and exit."""
     with pytest.raises(SystemExit):
-        assert dnsck_query_udp("8.8.8.8", "google.com", "XYZ", 1)
+        assert dnsck_query("8.8.8.8", "google.com", "XYZ", 1)
 
 
 def test_udp_bad_server():
     """Tests response with bad server IP address."""
-    assert dnsck_query_udp("8.8.8.88", "google.com", "A", 1) == 1
+    assert dnsck_query("8.8.8.88", "google.com", "A", 1) == 1
 
 
 def test_udp_no_records():
     """Tests response with no records returned."""
-    assert dnsck_query_udp("8.8.8.8", "test.google.com", "A", 1) == 0
+    assert dnsck_query("8.8.8.8", "test.google.com", "A", 1) == 0
 
 
 def test_udp_keyboard_interrupt():
