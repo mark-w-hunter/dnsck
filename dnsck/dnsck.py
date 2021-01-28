@@ -45,7 +45,7 @@ def dnsck_query(dns_server: str, dns_query: str, record_type: str, iterations: i
 
     Args:
         dns_server (str): IP address of server.
-        dns_query (str): Query to search.
+        dns_query (str): Query to lookup.
         record_type (str): Record type.
         iterations (int): Number of iterations.
         tcp (bool): Use TCP for query.
