@@ -8,6 +8,6 @@ python:
   - "3.9-dev"
 install: "pip install flake8 pytest pytest-cov dnspython"
 script: 
-  - "flake8 --max-line-length=100 dnsck/dnsck.py"
+  - "flake8 --max-line-length=120 dnsck/dnsck.py"
   - "pytest --cov=dnsck"
   - "bash <(curl -s https://codecov.io/bash)"
