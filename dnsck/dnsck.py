@@ -37,10 +37,11 @@ from typing import DefaultDict, List
 from dns import query, message, rcode, exception, rdatatype
 
 __author__ = "Mark W. Hunter"
-__version__ = "0.28"
+__version__ = "0.29"
 
 
-def dnsck_query(dns_server: str, dns_query: str, record_type: str, iterations: int, tcp: bool = False) -> int:
+def dnsck_query(dns_server: str, dns_query: str, record_type: str, iterations: int,
+                tcp: bool = False, nosleep: bool = False) -> int:
     """Perform a DNS query for a set number of iterations.
 
     Args:
@@ -49,6 +50,7 @@ def dnsck_query(dns_server: str, dns_query: str, record_type: str, iterations: i
         record_type (str): Record type.
         iterations (int): Number of iterations.
         tcp (bool): Use TCP for query.
+        nosleep (bool): Disable sleep.
 
     Returns:
         int: Number of errors.
@@ -101,7 +103,8 @@ def dnsck_query(dns_server: str, dns_query: str, record_type: str, iterations: i
                 elapsed_time = 10000
                 iteration_count += 1
                 response_errors += 1
-            time.sleep(1)
+            if not nosleep:
+                time.sleep(1)
             query_times.append(elapsed_time)
             print(f"Records returned: {record_number}")
             print(f"Response time: {elapsed_time:.2f} ms")
@@ -159,6 +162,7 @@ def main():
         "-i", "--iter", type=int, help="number of iterations [default: 30]", default=30
     )
     dnsck_parser.add_argument("--tcp", help="use tcp", action="store_true")
+    dnsck_parser.add_argument("--nosleep", help="disable sleep", action="store_true")
     dnsck_parser.add_argument(
         "-v",
         "--version",
@@ -172,9 +176,15 @@ def main():
         sys.exit(2)
 
     if args.tcp:
-        dnsck_query(args.server, args.domain, args.type, args.iter, True)
+        if args.nosleep:
+            dnsck_query(args.server, args.domain, args.type, args.iter, True, True)
+        else:
+            dnsck_query(args.server, args.domain, args.type, args.iter, True)
     else:
-        dnsck_query(args.server, args.domain, args.type, args.iter)
+        if args.nosleep:
+            dnsck_query(args.server, args.domain, args.type, args.iter, False, True)
+        else:
+            dnsck_query(args.server, args.domain, args.type, args.iter)
 
 
 if __name__ == "__main__":
