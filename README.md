@@ -56,13 +56,13 @@ dnsck/dnsck.py --version
 
 ## functions
 
-dnsck_query_udp(dns_server, dns_query, record_type, iterations)
+dnsck_query(dns_server, dns_query, record_type, iterations)
 
-- Perform a UDP DNS query for a set number of iterations  
+- Perform a UDP or TCP DNS query for a set number of iterations
 
-dnsck_query_tcp(dns_server, dns_query, record_type, iterations)
+is_valid_ip_address(ip_addr)
 
-- Perform a TCP DNS query for a set number of iterations
+- Checks input is a valid IPv4 or IPv6 address
 
 main()
 
