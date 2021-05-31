@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.com/mark-w-hunter/dnsck.svg?branch=devel)](https://travis-ci.com/mark-w-hunter/dnsck)
 [![codecov](https://codecov.io/gh/mark-w-hunter/dnsck/branch/devel/graph/badge.svg)](https://codecov.io/gh/mark-w-hunter/dnsck)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Perform automated DNS queries from command-line input
