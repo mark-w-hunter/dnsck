@@ -40,16 +40,34 @@ def test_tcp_keyboard_interrupt():
 
 def test_tcp_alt_rectype():
     """Tests alternate record type in command-line parameter."""
-    cmd = ["python", "dnsck/dnsck.py", "-s", "8.8.8.8",
-           "google.com", "-t", "txt", "--tcp", "--iter", "1"]
+    cmd = [
+        "python",
+        "dnsck/dnsck.py",
+        "-s",
+        "8.8.8.8",
+        "google.com",
+        "-t",
+        "txt",
+        "--tcp",
+        "--iter",
+        "1",
+    ]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
 
 
 def test_tcp_alt_iteration():
     """Tests alternate iteration in command-line parameter."""
-    cmd = ["python", "dnsck/dnsck.py", "-s",
-           "8.8.8.8", "google.com", "-i", "2", "--tcp"]
+    cmd = [
+        "python",
+        "dnsck/dnsck.py",
+        "-s",
+        "8.8.8.8",
+        "google.com",
+        "-i",
+        "2",
+        "--tcp",
+    ]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
 
@@ -57,7 +75,16 @@ def test_tcp_alt_iteration():
 def test_tcp_alt_rectype_and_iteration():
     """Tests alternate record type and iteration in command-line parameter."""
     cmd = [
-        "python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-t", "NS", "-i", "1", "--tcp"
+        "python",
+        "dnsck/dnsck.py",
+        "-s",
+        "8.8.8.8",
+        "google.com",
+        "-t",
+        "NS",
+        "-i",
+        "1",
+        "--tcp",
     ]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
@@ -66,7 +93,16 @@ def test_tcp_alt_rectype_and_iteration():
 def test_tcp_swap_rectype_and_iteration():
     """Tests swapping record type and iteration parameters."""
     cmd = [
-        "python", "dnsck/dnsck.py", "-s", "8.8.8.8", "google.com", "-i", "1", "-t", "NS", "--tcp"
+        "python",
+        "dnsck/dnsck.py",
+        "-s",
+        "8.8.8.8",
+        "google.com",
+        "-i",
+        "1",
+        "-t",
+        "NS",
+        "--tcp",
     ]
     process = subprocess.run(cmd, shell=False, check=True)
     assert process.returncode == 0
