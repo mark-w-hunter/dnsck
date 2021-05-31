@@ -46,7 +46,15 @@ def test_cli_extra_param():
 
 def test_cli_extra_param_tcp():
     """Tests command-line input with extra parameter and --tcp specified."""
-    cmd = ["python", "dnsck/dnsck.py", "-s", "2001:4860:4802:34::a", "google.com", "--tcp", "-y"]
+    cmd = [
+        "python",
+        "dnsck/dnsck.py",
+        "-s",
+        "2001:4860:4802:34::a",
+        "google.com",
+        "--tcp",
+        "-y",
+    ]
     process = subprocess.run(cmd, shell=False, check=False)
     assert process.returncode == 2
 

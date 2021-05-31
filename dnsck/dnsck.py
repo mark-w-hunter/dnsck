@@ -40,8 +40,14 @@ __author__ = "Mark W. Hunter"
 __version__ = "0.29"
 
 
-def dnsck_query(dns_server: str, dns_query: str, record_type: str, iterations: int,
-                tcp: bool = False, nosleep: bool = False) -> int:
+def dnsck_query(
+    dns_server: str,
+    dns_query: str,
+    record_type: str,
+    iterations: int,
+    tcp: bool = False,
+    nosleep: bool = False,
+) -> int:
     """Perform a DNS query for a set number of iterations.
 
     Args:
@@ -63,7 +69,9 @@ def dnsck_query(dns_server: str, dns_query: str, record_type: str, iterations: i
     iteration_count = 0  # type: int
 
     try:
-        make_dns_query = message.make_query(dns_query, record_type.upper(), use_edns=True)
+        make_dns_query = message.make_query(
+            dns_query, record_type.upper(), use_edns=True
+        )
     except rdatatype.UnknownRdatatype:
         print("Unknown record type, try again.")
         sys.exit(1)
