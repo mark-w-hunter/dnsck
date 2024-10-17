@@ -33,7 +33,7 @@ import time
 import argparse
 from collections import defaultdict
 from ipaddress import ip_address
-from typing import DefaultDict, List
+from typing import DefaultDict, List  # noqa: F401
 from dns import query, message, rcode, exception, rdatatype
 
 __author__ = "Mark W. Hunter"
