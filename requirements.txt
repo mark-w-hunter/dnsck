@@ -2,3 +2,5 @@
 
 dnspython>=1.15.0
 pytest>=6.1.0
+tox
+pytest
